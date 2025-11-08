@@ -100,7 +100,9 @@ class FlashbotProvider(HTTPProvider):
                     | self._get_flashbots_headers(request_data),
                 timeout=10
             )
-            response = self.decode_rpc_response(raw_response)
+            # fix: get response status before decoding
+            raw_response.raise_for_status()  # check for HTTP errors
+            response = self.decode_rpc_response(raw_response.content)
             self.logger.debug(
                 f"Getting response HTTP. URI: {self.endpoint_uri}, Method: {method}, Response: {response}"
             )
