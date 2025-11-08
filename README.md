@@ -1,4 +1,6 @@
-```pip install -U git+https://github.com/web3dev2023/flashbots-web3-v7-support```
+```
+pip install -U git+https://github.com/web3dev2023/flashbots-web3-v7-support
+```
 
 # web3-flashbots
 
