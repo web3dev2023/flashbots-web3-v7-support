@@ -22,6 +22,10 @@ from .types import (FlashbotsBundleDictTx, FlashbotsBundleRawTx,
                     TxReceipt)
 
 SECONDS_PER_BLOCK = 12
+BUILDER_NAMES = ["Titan",'BuilderNet', "Quasar", "beaverbuild.org", "f1b.io", "rsync", "builder0x69", "EigenPhi", 
+                 "boba-builder", "Gambit Labs", "payload", "Loki", "BuildAI", "JetBuilder", "tbuilder", 
+                 "penguinbuild", "bobthebuilder", "BTCS", "bloXroute", "Blockbeelder","Eureka"]
+#Based on https://github.com/flashbots/dowg/blob/main/builder-registrations.json
 
 def get_transaction_type(tx: Dict[str, Any]) -> str:
     tx_type = tx.get("type", "0x0")
@@ -220,6 +224,7 @@ class Flashbots(Module):
                 "replacementUuid": (
                     opts["replacementUuid"] if "replacementUuid" in opts else None
                 ),
+                "builders": opts["builders"] if "builders" in opts else  BUILDER_NAMES
             }
         ]
 
@@ -415,6 +420,7 @@ class Flashbots(Module):
         params = {
             "tx": signed_transaction.to_0x_hex(),
             "maxBlockNumber": max_block_number,
+            "preferences": {"fast":True, "privacy":{"builders": BUILDER_NAMES }},
         }
         self.response = FlashbotsPrivateTransactionResponse(
             self.w3, signed_transaction, max_block_number
